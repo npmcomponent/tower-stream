@@ -21,13 +21,17 @@ describe('stream', function(){
     var calls = [];
 
     stream('word-counter')
-      .on('init', function(s){
+      .on('init', function(node){
         calls.push('init');
+
+        assert('word-counter' === node.name);
       })
-      .on('execute', function(s, fn){
+      .on('execute', function(node, data, fn){
         calls.push('execute');
+
+        assert('hello' === data.word);
       })
-      .on('close', function(s, fn){
+      .on('close', function(node, fn){
         calls.push('close');
 
         assert('init' === calls[0]);
@@ -40,7 +44,7 @@ describe('stream', function(){
     var counter = stream('word-counter').create();
     assert(1 === calls.length);
 
-    counter.execute();
+    counter.execute({ word: 'hello' });
     assert(2 === calls.length);
 
     counter.close();
