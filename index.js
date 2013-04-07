@@ -24,7 +24,7 @@ module.exports = stream;
  */
 
 function stream(name) {
-  if (streams[name]) return streams[name];
+  if (constructors[name]) return constructors[name];
 
   /**
    * Initialize a new `Stream`.
@@ -44,7 +44,6 @@ function stream(name) {
   // statics
 
   Stream.className = Stream.id = name;
-  Stream.attrs = [];
 
   for (var key in statics) Stream[key] = statics[key];
 
@@ -56,8 +55,8 @@ function stream(name) {
   
   for (var key in proto) Stream.prototype[key] = proto[key];
 
-  streams[name] = Stream;
-  streams.push(Stream);
+  constructors[name] = Stream;
+  constructors.push(Stream);
   stream.emit('define', Stream);
 
   return Stream;
@@ -67,7 +66,7 @@ function stream(name) {
  * Stream classes.
  */
 
-var streams = stream.streams = [];
+var constructors = stream.constructors = [];
 
 /**
  * Mixin `Emitter`.
