@@ -13,7 +13,7 @@ var _stream = require('stream')
  * Expose `stream`.
  */
 
-module.exports = stream;
+var exports = module.exports = stream;
 
 /**
  * A one-liner.
@@ -34,7 +34,7 @@ function stream(name) {
 
   function Stream() {
     this.name = name;
-    this.emit('init', this);
+    Stream.emit('init', this);
   }
 
   // mixin emitter
@@ -73,3 +73,12 @@ var constructors = stream.constructors = [];
  */
 
 Emitter(stream);
+
+/**
+ * Clear `stream.constructors`.
+ */
+
+exports.clear = function(){
+  constructors.length = 0;
+  return exports;
+}
