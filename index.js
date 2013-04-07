@@ -52,6 +52,7 @@ function stream(name) {
 
   Stream.prototype = {};
   Stream.prototype.constructor = Stream;
+  Emitter(Stream.prototype);
   
   for (var key in proto) Stream.prototype[key] = proto[key];
 
