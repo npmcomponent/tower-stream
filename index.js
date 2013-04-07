@@ -79,6 +79,16 @@ Emitter(stream);
  */
 
 exports.clear = function(){
-  constructors.length = 0;
+  exports.off('define');
+
+  constructors.forEach(function(emitter){
+    emitter.off('init');
+    emitter.off('data');
+    emitter.off('execute');
+    emitter.off('close');
+  });
+  
+  //constructors.length = 0;
+
   return exports;
 }

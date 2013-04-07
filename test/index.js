@@ -49,4 +49,32 @@ describe('stream', function(){
 
     counter.close();
   });
+
+  it('should count words', function(done){
+    stream('word-counter')
+      .on('init', function(node){
+        node.words = {};
+      })
+      .on('execute', function(node, data){
+        node.words[data.word] == null
+          ? (node.words[data.word] = 1)
+          : (++node.words[data.word]);
+      })
+      .on('close', function(node, fn){
+        assert(5 === node.words['hello'])
+        assert(2 === node.words['world']);
+
+        done();
+      });
+
+    var counter = stream('word-counter').create();
+    counter.execute({ word: 'hello' });
+    counter.execute({ word: 'hello' });
+    counter.execute({ word: 'hello' });
+    counter.execute({ word: 'hello' });
+    counter.execute({ word: 'hello' });
+    counter.execute({ word: 'world' });
+    counter.execute({ word: 'world' });
+    counter.close();
+  });
 });
