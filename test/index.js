@@ -5,7 +5,13 @@ var stream = 'undefined' == typeof window
 var assert = require('assert');
 
 describe('stream', function(){
-  it('should test', function(){
-    assert.equal(1 + 1, 2);
+  it('should define', function(done){
+    stream.on('define', function(s){
+      assert('word-count' === s.id);
+
+      done();
+    });
+
+    stream('word-count');
   });
 });
