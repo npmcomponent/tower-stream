@@ -30,6 +30,8 @@ describe('stream', function(){
         calls.push('execute');
 
         assert('hello' === data.word);
+
+        fn();
       })
       .on('close', function(node, fn){
         calls.push('close');
@@ -55,10 +57,12 @@ describe('stream', function(){
       .on('init', function(node){
         node.words = {};
       })
-      .on('execute', function(node, data){
+      .on('execute', function(node, data, fn){
         node.words[data.word] == null
           ? (node.words[data.word] = 1)
           : (++node.words[data.word]);
+
+        fn();
       })
       .on('close', function(node, fn){
         assert(5 === node.words['hello'])
