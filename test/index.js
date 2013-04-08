@@ -62,7 +62,7 @@ describe('stream', function(){
           ? (node.words[data.word] = 1)
           : (++node.words[data.word]);
 
-        fn();
+        setTimeout(fn, 100);
       })
       .on('close', function(node, fn){
         assert(5 === node.words['hello'])
