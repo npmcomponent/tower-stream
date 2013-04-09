@@ -32,8 +32,12 @@ function stream(name) {
    * @api public
    */
 
-  function Stream() {
+  function Stream(options) {
+    options || (options = {});
+
     this.name = name;
+    this.inputs = options.inputs || [];
+    this.outputs = options.outputs || [];
     Stream.emit('init', this);
   }
 
