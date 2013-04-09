@@ -35,6 +35,8 @@ function stream(name) {
   function Stream(options) {
     options || (options = {});
 
+    for (key in options) this[key] = options[key];
+
     this.name = name;
     this.inputs = options.inputs || [];
     this.outputs = options.outputs || [];
