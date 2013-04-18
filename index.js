@@ -23,7 +23,7 @@ var exports = module.exports = stream;
  * @api public
  */
 
-function stream(name) {
+function stream(name, fn) {
   if (constructors[name]) return constructors[name];
 
   /**
@@ -41,6 +41,17 @@ function stream(name) {
     this.inputs = options.inputs || [];
     this.outputs = options.outputs || [];
     Stream.emit('init', this);
+    
+    // XXX: tmp
+    //if ('function' === typeof fn) {
+    //  this.on('execute', function(){
+    //    console.log('exec!')
+    //  });
+    //  this.on('open', function(context, data, fn){
+    //    console.log('asdf', data, fn);
+    //    fn();
+    //  });
+    //}
   }
 
   // mixin emitter
