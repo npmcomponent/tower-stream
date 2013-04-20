@@ -3,9 +3,7 @@
  * Module dependencies.
  */
 
-var _stream = require('stream')
-  , ReadableStream = _stream.Readable
-  , proto = require('./lib/proto')
+var proto = require('./lib/proto')
   , statics = require('./lib/static')
   , Emitter = 'undefined' == typeof window ? require('emitter-component') : require('emitter')
 
@@ -13,18 +11,17 @@ var _stream = require('stream')
  * Expose `stream`.
  */
 
-var exports = module.exports = stream;
+exports = module.exports = stream;
 
 /**
- * A one-liner.
+ * Find or create a stream by `name`.
  *
  * @param {String} name
- * @return {Function}
- * @api public
+ * @param {Function} [fn]
  */
 
 function stream(name, fn) {
-  if (constructors[name]) return constructors[name];
+  if (lookup[name]) return lookup[name];
 
   /**
    * Initialize a new `Stream`.
@@ -54,10 +51,6 @@ function stream(name, fn) {
     //}
   }
 
-  // mixin emitter
-
-  Emitter(Stream);
-
   // statics
 
   Stream.className = Stream.id = name;
@@ -68,11 +61,10 @@ function stream(name, fn) {
 
   Stream.prototype = {};
   Stream.prototype.constructor = Stream;
-  Emitter(Stream.prototype);
   
   for (var key in proto) Stream.prototype[key] = proto[key];
 
-  constructors[name] = Stream;
+  lookup[name] = Stream;
   constructors.push(Stream);
   stream.emit('define', Stream);
 
@@ -83,13 +75,16 @@ function stream(name, fn) {
  * Stream classes.
  */
 
-var constructors = stream.constructors = [];
+var constructors = stream.constructors = []
+  , lookup = {};
 
 /**
  * Mixin `Emitter`.
  */
 
 Emitter(stream);
+Emitter(statics);
+Emitter(proto);
 
 /**
  * Clear `stream.constructors`.
@@ -98,14 +93,19 @@ Emitter(stream);
 exports.clear = function(){
   exports.off('define');
 
-  constructors.forEach(function(emitter){
-    emitter.off('init');
-    emitter.off('data');
-    emitter.off('execute');
-    emitter.off('close');
-  });
-  
-  //constructors.length = 0;
+  while (constructors.length)
+    exports.remove(constructors.pop());
 
   return exports;
+}
+
+exports.remove = function(val){
+  var emitter = lookup[val] || val;
+
+  emitter.off('init');
+  emitter.off('data');
+  emitter.off('execute');
+  emitter.off('close');
+
+  delete lookup[emitter.id];
 }
