@@ -26,8 +26,8 @@ describe('stream', function(){
 
         assert('word-counter' === node.name);
       })
-      .on('execute', function(node, data, fn){
-        calls.push('execute');
+      .on('exec', function(node, data, fn){
+        calls.push('exec');
 
         assert('hello' === data.word);
 
@@ -37,7 +37,7 @@ describe('stream', function(){
         calls.push('close');
 
         assert('init' === calls[0]);
-        assert('execute' === calls[1]);
+        assert('exec' === calls[1]);
         assert('close' === calls[2]);
 
         done();
@@ -46,7 +46,7 @@ describe('stream', function(){
     var counter = stream('word-counter').create();
     assert(1 === calls.length);
 
-    counter.execute({ word: 'hello' });
+    counter.exec({ word: 'hello' });
     assert(2 === calls.length);
 
     counter.close();
@@ -57,7 +57,7 @@ describe('stream', function(){
       .on('init', function(node){
         node.words = {};
       })
-      .on('execute', function(node, data, fn){
+      .on('exec', function(node, data, fn){
         node.words[data.word] == null
           ? (node.words[data.word] = 1)
           : (++node.words[data.word]);
@@ -72,13 +72,13 @@ describe('stream', function(){
       });
 
     var counter = stream('word-counter').create();
-    counter.execute({ word: 'hello' });
-    counter.execute({ word: 'hello' });
-    counter.execute({ word: 'hello' });
-    counter.execute({ word: 'hello' });
-    counter.execute({ word: 'hello' });
-    counter.execute({ word: 'world' });
-    counter.execute({ word: 'world' });
+    counter.exec({ word: 'hello' });
+    counter.exec({ word: 'hello' });
+    counter.exec({ word: 'hello' });
+    counter.exec({ word: 'hello' });
+    counter.exec({ word: 'hello' });
+    counter.exec({ word: 'world' });
+    counter.exec({ word: 'world' });
     counter.close();
   });
 });

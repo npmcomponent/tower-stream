@@ -104,7 +104,7 @@ exports.remove = function(val){
 
   emitter.off('init');
   emitter.off('data');
-  emitter.off('execute');
+  emitter.off('exec');
   emitter.off('close');
 
   delete lookup[emitter.id];
