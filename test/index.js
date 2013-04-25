@@ -50,6 +50,7 @@ describe('stream', function(){
     assert(2 === calls.length);
 
     counter.close();
+    assert(3 === calls.length);
   });
 
   it('should count words', function(done){
@@ -65,8 +66,8 @@ describe('stream', function(){
         setTimeout(fn, 100);
       })
       .on('close', function(node, fn){
-        assert(5 === node.words['hello'])
-        assert(2 === node.words['world']);
+        assert(2 === node.words['hello'])
+        assert(1 === node.words['world']);
 
         done();
       });
@@ -74,10 +75,6 @@ describe('stream', function(){
     var counter = stream('word-counter').create();
     counter.exec({ word: 'hello' });
     counter.exec({ word: 'hello' });
-    counter.exec({ word: 'hello' });
-    counter.exec({ word: 'hello' });
-    counter.exec({ word: 'hello' });
-    counter.exec({ word: 'world' });
     counter.exec({ word: 'world' });
     counter.close();
   });
