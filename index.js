@@ -38,17 +38,6 @@ function stream(name, fn) {
     this.inputs = options.inputs || [];
     this.outputs = options.outputs || [];
     Stream.emit('init', this);
-    
-    // XXX: tmp
-    //if ('function' === typeof fn) {
-    //  this.on('execute', function(){
-    //    console.log('exec!')
-    //  });
-    //  this.on('open', function(context, data, fn){
-    //    console.log('asdf', data, fn);
-    //    fn();
-    //  });
-    //}
   }
 
   // statics
@@ -61,8 +50,19 @@ function stream(name, fn) {
 
   Stream.prototype = {};
   Stream.prototype.constructor = Stream;
+  // so you can chain
+  var ns = name.split('.');
+  ns = ns.pop() && ns.join('.');
+  // XXX: refactor to a better way
+  Stream.action = function(x, fn){
+    return stream(ns + '.' + x, fn);
+  }
   
   for (var key in proto) Stream.prototype[key] = proto[key];
+
+  if ('function' === typeof fn) {
+    Stream.on('exec', fn);
+  }
 
   lookup[name] = Stream;
   constructors.push(Stream);
@@ -77,6 +77,19 @@ function stream(name, fn) {
 
 var constructors = stream.constructors = []
   , lookup = {};
+
+exports.ns = function(ns){
+  function stream(name) {
+    return exports(ns + '.' + name);
+  }
+
+  // XXX: copy functions?
+  for (var key in exports) {
+    if ('function' === typeof exports[key])
+      stream[key] = exports[key];
+  }
+  return stream;
+}
 
 /**
  * Mixin `Emitter`.
