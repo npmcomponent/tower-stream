@@ -66,6 +66,12 @@ function stream(name, fn) {
 
   lookup[name] = Stream;
   constructors.push(Stream);
+  // XXX: refactor. basically, need a way to hook into any level of
+  // things created.
+  var parts = name.split('.');
+  parts.forEach(function(x, i){
+    stream.emit('define ' + parts.slice(0, i).join('.'), Stream);
+  });
   stream.emit('define', Stream);
 
   return Stream;
