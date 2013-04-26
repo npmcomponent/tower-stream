@@ -5,7 +5,7 @@
 
 var proto = require('./lib/proto')
   , statics = require('./lib/static')
-  , Emitter = require('tower-emitter');
+  , api = require('./lib/api');
 
 /**
  * Expose `stream`.
@@ -21,7 +21,7 @@ exports = module.exports = stream;
  */
 
 function stream(name, fn) {
-  if (lookup[name]) return lookup[name];
+  if (exports.constructors[name]) return exports.constructors[name];
 
   /**
    * Initialize a new `Stream`.
@@ -40,91 +40,33 @@ function stream(name, fn) {
     Stream.emit('init', this);
   }
 
-  // statics
+  api.init(name, Stream, statics, proto, stream);
 
-  Stream.className = Stream.id = name;
-
-  for (var key in statics) Stream[key] = statics[key];
-
-  // prototype
-
-  Stream.prototype = {};
-  Stream.prototype.constructor = Stream;
-  // so you can chain
-  var ns = name.split('.');
-  ns = ns.pop() && ns.join('.');
-  // XXX: refactor to a better way
   Stream.action = function(x, fn){
-    return stream(ns + '.' + x, fn);
-  }
-  
-  for (var key in proto) Stream.prototype[key] = proto[key];
-
-  if ('function' === typeof fn) {
-    Stream.on('exec', fn);
+    return stream(Stream.ns + '.' + x, fn);
   }
 
-  lookup[name] = Stream;
-  constructors.push(Stream);
-  // XXX: refactor. basically, need a way to hook into any level of
-  // things created.
-  var parts = name.split('.');
-  parts.forEach(function(x, i){
-    stream.emit('define ' + parts.slice(0, i).join('.'), Stream);
-  });
-  stream.emit('define', Stream);
+  if ('function' === typeof fn) Stream.on('exec', fn);
+
+  api.dispatch(stream, name, Stream);
 
   return Stream;
 }
 
 /**
- * Stream classes.
+ * Mixin API behavior.
  */
 
-var constructors = stream.constructors = []
-  , lookup = {};
+api(exports, statics, proto);
+
+/**
+ * Extend the `stream` API under a namespace.
+ */
 
 exports.ns = function(ns){
   function stream(name, fn) {
     return exports(ns + '.' + name, fn);
   }
 
-  // XXX: copy functions?
-  for (var key in exports) {
-    if ('function' === typeof exports[key])
-      stream[key] = exports[key];
-  }
-  return stream;
-}
-
-/**
- * Mixin `Emitter`.
- */
-
-Emitter(stream);
-Emitter(statics);
-Emitter(proto);
-
-/**
- * Clear `stream.constructors`.
- */
-
-exports.clear = function(){
-  exports.off('define');
-
-  while (constructors.length)
-    exports.remove(constructors.pop());
-
-  return exports;
-}
-
-exports.remove = function(val){
-  var emitter = lookup[val] || val;
-
-  emitter.off('init');
-  emitter.off('data');
-  emitter.off('exec');
-  emitter.off('close');
-
-  delete lookup[emitter.id];
+  return api.extend(stream, exports);
 }
