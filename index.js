@@ -79,8 +79,8 @@ var constructors = stream.constructors = []
   , lookup = {};
 
 exports.ns = function(ns){
-  function stream(name) {
-    return exports(ns + '.' + name);
+  function stream(name, fn) {
+    return exports(ns + '.' + name, fn);
   }
 
   // XXX: copy functions?
