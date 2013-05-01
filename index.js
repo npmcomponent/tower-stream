@@ -70,3 +70,13 @@ exports.ns = function(ns){
 
   return api.extend(stream, exports);
 }
+
+/**
+ * Check if `stream` exists by `name`.
+ *
+ * @param {String} name
+ */
+
+exports.exists = function(name){
+  return !!exports.constructors[name];
+}
