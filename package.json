@@ -4,6 +4,6 @@
   "main": "./index.js",
   "dependencies": {
     "tower-emitter": "*",
-    "tower-operator": "*"
+    "tower-param": "*"
   }
 }
