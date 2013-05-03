@@ -6,8 +6,9 @@
   "keywords": [],
   "dependencies": {
     "tower/emitter": "*",
-    "tower-param": "*",
-    "tower-attr": "*"
+    "tower/param": "*",
+    "tower/attr": "*",
+    "tower/load": "*"
   },
   "scripts": [
     "index.js",

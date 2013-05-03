@@ -3,7 +3,8 @@
  * Module dependencies.
  */
 
-var proto = require('./lib/proto')
+var load = require('tower-load')
+  , proto = require('./lib/proto')
   , statics = require('./lib/static')
   , api = require('./lib/api');
 
@@ -69,6 +70,14 @@ exports.ns = function(ns){
   }
 
   return api.extend(stream, exports);
+}
+
+/**
+ * Lazy-load.
+ */
+
+exports.load = function(name, path){
+  return load(exports, name, path);
 }
 
 /**

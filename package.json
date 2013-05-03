@@ -5,6 +5,7 @@
   "dependencies": {
     "tower-emitter": "*",
     "tower-param": "*",
-    "tower-attr": "*"
+    "tower-attr": "*",
+    "tower-load": "*"
   }
 }
