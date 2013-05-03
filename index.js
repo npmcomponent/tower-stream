@@ -87,5 +87,9 @@ exports.load = function(name, path){
  */
 
 exports.exists = function(name){
+  // try lazy loading
+  if (undefined === exports.constructors[name])
+    return !!exports.load(name);
+
   return !!exports.constructors[name];
 }
