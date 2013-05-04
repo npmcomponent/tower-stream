@@ -76,8 +76,8 @@ exports.ns = function(ns){
  * Lazy-load.
  */
 
-exports.load = function(name, path){
-  return load(exports, name, path);
+exports.load = function(name, path, x){
+  return load(exports, name, path, x);
 }
 
 /**
