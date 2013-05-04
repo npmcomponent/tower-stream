@@ -22,7 +22,8 @@ exports = module.exports = stream;
  */
 
 function stream(name, fn) {
-  if (exports.constructors[name]) return exports.constructors[name];
+  if (exports.collection[name]) return exports.collection[name];
+  if (exports.load(name)) return exports.collection[name];
 
   /**
    * Initialize a new `Stream`.
@@ -76,8 +77,10 @@ exports.ns = function(ns){
  * Lazy-load.
  */
 
-exports.load = function(name, path, x){
-  return load(exports, name, path, x);
+exports.load = function(name, path){
+  return 1 === arguments.length
+    ? load(exports, name)
+    : load.apply(load, [exports].concat(Array.prototype.slice.call(arguments)));
 }
 
 /**
@@ -88,8 +91,8 @@ exports.load = function(name, path, x){
 
 exports.exists = function(name){
   // try lazy loading
-  if (undefined === exports.constructors[name])
+  if (undefined === exports.collection[name])
     return !!exports.load(name);
 
-  return !!exports.constructors[name];
+  return !!exports.collection[name];
 }
