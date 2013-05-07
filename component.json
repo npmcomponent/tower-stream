@@ -13,7 +13,8 @@
   "scripts": [
     "index.js",
     "lib/static.js",
-    "lib/proto.js"
+    "lib/proto.js",
+    "lib/api.js"
   ],
   "main": "index.js",
   "license": "MIT"
