@@ -70,7 +70,13 @@ exports.ns = function(ns){
     return exports(ns + '.' + name, fn);
   }
 
-  return api.extend(stream, exports);
+  api.extend(stream, exports);
+
+  stream.exists = function(name){
+    return exports.exists(ns + '.' + name);
+  }
+
+  return stream;
 }
 
 /**
