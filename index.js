@@ -3,10 +3,10 @@
  * Module dependencies.
  */
 
-var load = require('tower-load')
-  , proto = require('./lib/proto')
-  , statics = require('./lib/static')
-  , api = require('./lib/api');
+var load = require('tower-load');
+var proto = require('./lib/proto');
+var statics = require('./lib/static');
+var api = require('./lib/api');
 
 /**
  * Expose `stream`.
@@ -77,7 +77,7 @@ exports.ns = function(ns){
   }
 
   return stream;
-}
+};
 
 /**
  * Lazy-load.
@@ -87,7 +87,7 @@ exports.load = function(name, path){
   return 1 === arguments.length
     ? load(exports, name)
     : load.apply(load, [exports].concat(Array.prototype.slice.call(arguments)));
-}
+};
 
 /**
  * Check if `stream` exists by `name`.
@@ -101,4 +101,4 @@ exports.exists = function(name){
     return !!exports.load(name);
 
   return !!exports.collection[name];
-}
+};
