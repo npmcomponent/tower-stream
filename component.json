@@ -5,10 +5,10 @@
   "version": "0.1.0pre",
   "keywords": [],
   "dependencies": {
-    "tower/emitter": "0.1.0pre",
-    "tower/param": "0.1.0pre",
-    "tower/attr": "0.1.0pre",
-    "tower/load": "0.1.0pre"
+    "tower/emitter": "*",
+    "tower/param": "*",
+    "tower/attr": "*",
+    "tower/load": "*"
   },
   "development": {
     "component/assert": "*",
