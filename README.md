@@ -5,13 +5,13 @@
 node.js:
 
 ```bash
-npm install tower-stream
+$ npm install tower-stream
 ```
 
 browser:
 
 ```bash
-component install tower/stream
+$ component install tower/stream
 ```
 
 ## Example
