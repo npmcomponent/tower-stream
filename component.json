@@ -2,13 +2,13 @@
   "name": "tower-stream",
   "repo": "tower/stream",
   "description": "Tower Stream component",
-  "version": "0.1.0pre",
+  "version": "0.1.0",
   "keywords": [],
   "dependencies": {
-    "tower/emitter": "*",
-    "tower/param": "*",
-    "tower/attr": "*",
-    "tower/load": "*"
+    "tower/emitter": "0.1.0",
+    "tower/param": "0.1.0",
+    "tower/attr": "0.1.0",
+    "tower/load": "0.1.0"
   },
   "development": {
     "component/assert": "*",
