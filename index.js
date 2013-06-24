@@ -17,8 +17,9 @@ exports = module.exports = stream;
 /**
  * Find or create a stream by `name`.
  *
- * @param {String} name
- * @param {Function} [fn]
+ * @param {String} name A stream name.
+ * @param {Function} fn Function called on stream execution.
+ * @api public
  */
 
 function stream(name, fn) {
@@ -26,8 +27,10 @@ function stream(name, fn) {
   if (exports.load(name)) return exports.collection[name];
 
   /**
-   * Initialize a new `Stream`.
+   * Class representing a stream.
    *
+   * @class
+   * @param {Object} options Stream options.
    * @api public
    */
 
@@ -63,6 +66,10 @@ api(exports, statics, proto);
 
 /**
  * Extend the `stream` API under a namespace.
+ *
+ * @param {String} ns A namespace.
+ * @return {Function} The `stream` API function extended under a namespace.
+ * @api public
  */
 
 exports.ns = function(ns){
@@ -81,6 +88,11 @@ exports.ns = function(ns){
 
 /**
  * Lazy-load.
+ * 
+ * @param {String} name A unique key such as a stream name.
+ * @param {Path} path Full `require.resolve(x)` path.
+ * @return {Function} A module.
+ * @api public
  */
 
 exports.load = function(name, path){
@@ -92,7 +104,9 @@ exports.load = function(name, path){
 /**
  * Check if `stream` exists by `name`.
  *
- * @param {String} name
+ * @param {String} name A stream name.
+ * @return {Boolean} true if the stream exists, else false.
+ * @api public
  */
 
 exports.exists = function(name){
