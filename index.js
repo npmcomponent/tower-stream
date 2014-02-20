@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var load = require('tower-load');
+// commented out by npm-component: var load = require('tower-load');
 var proto = require('./lib/proto');
 var statics = require('./lib/static');
 var api = require('./lib/api');

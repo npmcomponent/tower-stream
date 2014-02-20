@@ -1,15 +1,14 @@
 {
   "name": "tower-stream",
-  "version": "0.1.0",
-  "main": "./index.js",
+  "description": "Tower Stream component",
+  "version": "0.1.2",
+  "keywords": [],
+  "main": "index.js",
   "dependencies": {
-    "tower-emitter": "~0.1.0",
-    "tower-param": "~0.1.0",
-    "tower-attr": "~0.1.0",
-    "tower-load": "~0.1.0"
+    "tower-emitter": "git://github.com/npmcomponent/tower-emitter.git",
+    "tower-param": "git://github.com/npmcomponent/tower-param.git",
+    "tower-attr": "git://github.com/npmcomponent/tower-attr.git",
+    "tower-load": "git://github.com/npmcomponent/tower-load.git"
   },
-  "repository": {
-    "type" : "git",
-    "url" : "http://github.com/tower/stream.git"
-  }
+  "license": "MIT"
 }
